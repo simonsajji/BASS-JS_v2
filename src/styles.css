@@ -1,1 +1,121 @@
+
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "./assets/css/commonCss.css";
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;background-color: rgb(249, 249, 249); }
+
+
+
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-color: transparent!important;
+  }
+
+
+  
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: transparent!important;
+  }
+
+  div.r-ctr1::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-color: rgb(224, 224, 224)!important;
+  }
+
+.mat-dialog-container {
+    padding: 15px !important;
+}
+
+.mat-tab-body-wrapper{
+    height: 100%;
+}
+
+.mat-tab-body{
+    height: 100%;
+}
+
+.record-pagination ul.ngx-pagination {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.record-pagination .ngx-pagination a:hover{
+    background: #419ae8 !important;
+    color: #fff;
+}
+
+.record-pagination .ngx-pagination a{
+    text-decoration: none;
+}
+
+a{
+    color: unset;
+}
+
+a:hover{
+    text-decoration: none !important;
+}
+
+.d-block{
+    display: block;
+}
+
+.toolbar-spacer{
+    flex:1 1 auto;
+}
+
+.d-flex{
+    display: flex!important;
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column!important;
+}
+
+body{
+    margin:0;
+    font-family:Roboto, "Helvetica Neue",sans-serif;
+    
+}
+
+.light-blue{
+    color: #20abdd;
+    color: #16aae0;
+}
+
+.c-gr{
+    color:grey;
+}
+
+.bg-ws{
+    /* background-color: whitesmoke; */
+    background-color: rgb(247, 247, 247);
+}
+
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+
+.ngx-toastr {
+    width: 30vw !important;  
+  }
+
+.c-grab{
+    cursor: grab!important;
+}
+
+.p-relative{
+    position: relative;
+}
