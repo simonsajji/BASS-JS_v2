@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  postLogoutUrl:"https://bass-airservapps-staging.azurewebsites.net/",
+  redirecturi:"https://bass-airservapps-staging.azurewebsites.net/"
 };

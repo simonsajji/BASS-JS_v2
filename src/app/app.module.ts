@@ -29,6 +29,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { SkeletonLoaderComponent } from './components/skeleton-loader/skeleton-loader.component';
 import { DetailsComponent } from './components/details/details.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
+import { environment } from 'src/environments/environment';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
@@ -66,7 +67,8 @@ const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.u
       {
         auth:{
           clientId:'977e7d3b-d6af-4e9c-bcc4-c8bdaf310ec0',
-          redirectUri:'http://localhost:4200',
+          redirectUri:environment.redirecturi,
+          // redirectUri:'https://bass-airservapps-staging.azurewebsites.net/',
           authority:'https://login.microsoftonline.com/34c25798-fa80-4e05-b8ee-454fec6f8be8'
 
         },
