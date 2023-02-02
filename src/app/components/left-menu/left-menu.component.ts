@@ -7,6 +7,7 @@ import { MoveService } from 'src/app/services/move.service';
 import { ApiService } from 'src/app/services/api.service';
 import { environment } from 'src/environments/environment';
 import {fromEvent} from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -27,13 +28,15 @@ export class LeftMenuComponent implements OnInit {
   @Output() fetchAllRoutesEvent = new EventEmitter<any>();
   @Output() selectBranchLocationEvent = new EventEmitter<any>();
   @Output() selectRouteEvent = new EventEmitter<any>();
+  @Output() selectLocationEvent = new EventEmitter<any>();
+  @Output() selectMachineEvent = new EventEmitter<any>();
   dropArea:any;
   dropPoint:any = null;
   dragActive:boolean = false;
   xPos:any;
   yPos:any;
   @ViewChild('cursorDrop')  cursorDrop:ElementRef | undefined;
-  constructor(private dialog: MatDialog,private toastr: ToastrServices,private moveService:MoveService,private apiService:ApiService) { }
+  constructor(private router:Router, private dialog: MatDialog,private toastr: ToastrServices,private moveService:MoveService,private apiService:ApiService) { }
 
   ngOnInit(): void {
     this.moveService.getDraggedItems().subscribe((item:any) => {
@@ -44,22 +47,57 @@ export class LeftMenuComponent implements OnInit {
     });
   }
 
+  showRoutesList(branch:any){
+    this.selectRouteEvent.emit(branch?.Branch_Id);
+    this.router.navigate(['home/routes'],
+    {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count},skipLocationChange:true})
+
+  }
+
+  showLocationsList(branch:any){
+    this.selectLocationEvent.emit(branch?.Branch_Id);
+    this.router.navigate(['home/location-list'],
+    // {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count}}
+    {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count},skipLocationChange:true}
+    )
+  }
+
+  showMachinesList(branch:any){
+    this.selectMachineEvent.emit(branch?.Branch_Id);
+    this.router.navigate(['home/machine-list'],
+    // {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count}}
+    {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count,machinesCount:branch?.Machine_count},skipLocationChange:true}
+    )
+  }
+
+  navigate(route:any){
+    this.router.navigate([route]) 
+  }
+
   shrinkBranch(branch:any){
     this.branchData?.forEach((element:any)=>{
-      if(element?.BranchId == branch?.BranchId) element.dropped = false;
+      if(element?.Branch_Id == branch?.Branch_Id) element.dropped = false;
     })
   }
 
   expandBranch(branch:any){
     // this.shrinkAllBranches();
     this.branchData?.forEach((element:any)=>{
-      if(element?.BranchId == branch?.BranchId) element.dropped = true;
+      if(element?.Branch_Id == branch?.Branch_Id) element.dropped = true;
       // else element.dropped = false;
     })
   }
 
   currentbranchSelect(branch:any){
     this.branchSelectEvent.emit(branch);
+    this.router.navigate(['home/branch'],
+    {queryParams:{branchId:branch?.Branch_Id,branchName:branch?.Branch_Name,
+      routesCount:branch?.Route_Count,
+      machineCount:branch?.Machine_count,
+      technicianCount:branch?.Technician_Count,
+      totalCollection:branch?.Total_Collection,
+      locationCount:branch?.Location_Count
+    },skipLocationChange:true})
   }
 
   getAllRoutesofBranch(branch:any,view:any){
@@ -121,7 +159,7 @@ export class LeftMenuComponent implements OnInit {
     this.dropArea = route;
     this.dragActive = false;
     if(this.cursorDrop) this.cursorDrop.nativeElement.classList.add('v-hidden')
-    if(this.draggeditem.length>0 && this.dropArea && (this.dropArea?.RouteId != this.draggeditem[0]?.RouteId)) this.moveLocation();
+    if(this.draggeditem.length>0 && this.dropArea && (this.dropArea?.Route_Id != this.draggeditem[0]?.Route_Id)) this.moveLocation();
     this.dropPoint = null;
     this.moveService.setDropPoint(this.dropPoint);
   }
@@ -190,7 +228,7 @@ export class LeftMenuComponent implements OnInit {
         // add location from new route
         this.branchData?.forEach((element:any) => {
           element?.Routes?.forEach((route:any)=>{
-            if(this.dropArea?.RouteId == route?.RouteId) route?.Locations?.push(...this.draggeditem)
+            if(this.dropArea?.Route_Id == route?.Route_Id) route?.Locations?.push(...this.draggeditem)
           })
         });
         this.toastr.success(`Moved  ${this.draggeditem.length} Locations to Route ${this.dropArea?.RouteName}  successfully`);
@@ -210,8 +248,8 @@ export class LeftMenuComponent implements OnInit {
 
 
   getLocationsofRoute(route:any){
-    console.log(route?.RouteId);
-    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.RouteId}`).subscribe((res)=>{
+    console.log(route?.Route_Id);
+    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.Route_Id}`).subscribe((res)=>{
       route.Locations = res;
       route.isrouteDropped = true;
       route?.Locations.forEach((item:any)=>{

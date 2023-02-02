@@ -22,28 +22,22 @@ import { MaterialModule } from './modules/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule} from 'ngx-toastr';
 import { ToastrServices } from './services/toastr.service';
-import { HomeComponent } from './components/home/home.component';
 import { MatDialog } from '@angular/material/dialog';
 // import { AuthenticationComponent } from './modules/authentication/components/authentication.component';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { SkeletonLoaderComponent } from './components/skeleton-loader/skeleton-loader.component';
 import { DetailsComponent } from './components/details/details.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { environment } from 'src/environments/environment';
+import { SharedModule } from './modules/shared/shared.module';
+import { NgxSkeletonLoaderComponent, NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { EditRouteBoxComponent } from './components/edit-route-box/edit-route-box.component';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConfirmBoxComponent,
-    HeaderComponent,
-    ContextMenuComponent,
-    ProfileComponent,
-    HomeComponent,
-    SkeletonLoaderComponent,
-    DetailsComponent,
-    LeftMenuComponent,
+    EditRouteBoxComponent,  
     // AuthenticationComponent
   ],
   imports: [
@@ -57,7 +51,11 @@ const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.u
     MatCardModule,
     MatListModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
     NgxSkeletonLoaderModule,
+    SharedModule,
+
+
     ToastrModule.forRoot({
       positionClass :'toast-top-right',
       preventDuplicates: true
@@ -100,6 +98,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.u
     multi:true
   },
   MsalGuard,LoginService,ApiService,ToastrServices],
-  bootstrap: [AppComponent,MsalRedirectComponent]
+  bootstrap: [AppComponent,MsalRedirectComponent],
+  exports:[NgxSkeletonLoaderModule]
 })
 export class AppModule { }

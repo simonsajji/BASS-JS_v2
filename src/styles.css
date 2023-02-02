@@ -2,11 +2,45 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "./assets/css/commonCss.css";
+@font-face {
+    font-family: 'OpenSans-regular';
+    src: url('../src/assets/fonts/OpenSans-Regular.ttf');
+  }
+@font-face {
+    font-family: 'OpenSans-medium';
+    src: url('../src/assets/fonts/OpenSans-Medium.ttf');
+  }
+ 
+ 
+  @font-face {
+    font-family: 'OpenSans-semi-bold';
+    src: url('../src/assets/fonts/OpenSans-SemiBold.ttf');
+  }
+ 
+  @font-face {
+    font-family: 'OpenSans-bold';
+    src: url('../src/assets/fonts/OpenSans-Bold.ttf');
+  }
+  
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;background-color: rgb(249, 249, 249); }
+body { margin: 0;  font-family: 'OpenSans-medium';background-color: rgb(249, 249, 249); }
 
+.f-w500{
+    font-family: 'OpenSans-bold'!important;
+}
+.f-w400{
+    font-family: 'OpenSans-semi-bold'!important;
+}
 
+.flex-wrap{
+    flex-wrap: wrap!important;
+}
 
+:root {
+    --light-green:rgb(25, 150, 167);
+    --primary:#0dabe4;
+    --secondary:#0d259e;
+  }
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -97,10 +131,13 @@ body{
 .c-gr{
     color:grey;
 }
+.c-drk-gr{
+    color:rgb(79, 79, 79);
+}
 
 .bg-ws{
     /* background-color: whitesmoke; */
-    background-color: rgb(247, 247, 247);
+    background-color: rgb(243, 243, 243);
 }
 
 .flex-wrap{
@@ -118,4 +155,17 @@ body{
 
 .p-relative{
     position: relative;
+}
+
+.gap-2{
+    gap:2%;
+}
+.gap-5{
+    gap:5%;
+}
+.gap-10{
+    gap:10%;
+}
+.j-space{
+    justify-content: space-between!important;
 }

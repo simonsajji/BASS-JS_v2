@@ -1,0 +1,157 @@
+<div *ngIf="loader" class="d-flex w-100  align-center j-center loader2">
+    <!-- <mat-spinner [diameter]="50"></mat-spinner> -->
+</div>
+<ng-container>
+    <ng-container>
+        <p class="f-s-13 t-a-right m-b-10  m-r-10 max-h"><i class="fa far fa-home"></i>/ Canada-East / <span
+                class="highlighted-text f-w-500">Routes</span></p>
+    </ng-container>
+    <div class=" item-box5 m-b-10 p-t-20 p-b-20 w-100 d-flex p-15">
+        <div class="d-flex align-center  p-l-10 p-r-10 flex-1">
+            <img src="assets/icons/route.svg" width="25px" height="24px" alt="">
+            <div class="flex-column m-l-5 j-end p-b-5">
+
+                <div class=" f-w-500 flex-column j-end m-l-2">
+                    <div class="m-t-6 f-s-16 f-w400">ROUTES ({{routesCount}})</div>
+                </div>
+            </div>
+        </div>
+
+        <div  class="d-flex align-center main-search-bar p-l-10 p-r-10 m-r-15  j-end">
+            <input class="f-s-13 p-5" type="text" placeholder="Search">
+            <i class="fa fa-search fa-flip-horizontal sb " ></i>
+            <!-- <div class="main-s-button d-flex align-center j-center f-s-12 p-l-10 p-r-10 gap-2">
+                <div>Location</div> <i class="fa fa-angle-down angle fa-fw m-t-2" ></i></div> -->
+        </div>
+
+    </div>
+    <div class=" m-b-10 p-t-10 p-b-20  d-flex ">
+        <div class="item-box1 w-75 rte-tble-ctn m-r-10 m-l-5 p-15">
+            <div class="item w-100 p-10 m-t-10" *ngIf="loader">
+                <ngx-skeleton-loader count="8" animation="progress"
+                    [theme]="{ 'border-radius': '0', height: '30px' }"></ngx-skeleton-loader>
+            </div>
+            <mat-table *ngIf="!loader" matSort [dataSource]="dataSource" class="mat-table m-b-5"
+                style="overflow:auto!important;position:relative!important">
+                <ng-container *ngFor="let col of shownColumns" [matColumnDef]="col">
+                    <ng-container *ngIf="col=='Secondary'">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="f-s-12  d-flex align-center c-dark">
+                            <div class="d-flex align-center filter-bar  p-t-5">
+                                <input class="f-s-13 p-5" type="text" placeholder="{{col | removeUnderscore}}">
+                                <div class="f-button d-flex align-center j-center"><img src="assets/icons/search.png"
+                                        width="12px" height="12px" alt="" srcset=""></div>
+                            </div>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="d-flex j-end">
+                            <div class="d-flex j-end " style="width:40px">
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container *ngIf="col=='Add'">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header class="f-s-12  d-flex align-center c-dark">
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="d-flex j-end">
+                            <div class="d-flex j-end ">
+                                <img src="assets/icons/employee.png" width="22px" height="20px" alt="" srcset="">
+                            </div>
+
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="f-s-12  d-flex align-center c-dark">
+                        <!-- <div class="f-w500">{{ col}}</div> -->
+                        <div class="d-flex align-center filter-bar  p-t-5">
+                            <input class="f-s-12 p-5" type="text" placeholder="{{col | removeUnderscore}}">
+                            <div class="f-button d-flex align-center j-center"><img src="assets/icons/search.png"
+                                    width="12px" height="12px" alt="" srcset=""></div>
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="p-relative f-s-12"
+                        style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; "> {{ element[col] }}
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="shownColumns;sticky: true"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: shownColumns;"
+                    [ngClass]="(selectedRte?.Route_Id==row?.Route_Id) ? 'highlighted-row' : ''"
+                    (click)="viewRouteDetails(row)"></mat-row>
+            </mat-table>
+            <!-- <div  class="">
+                    <mat-paginator #matpaginatr   [pageSize]="pageSizeperPage" [pageSizeOptions]="[5,10,40,50,70]" class="pgntr"  [pageIndex]="pgIndex"
+                    (page)='onChangedPage($event)'  >
+                    </mat-paginator>
+                  </div> -->
+            <div *ngIf="!loader" class="table-footer d-flex align-center  gap-2 m-t-10 p-10 m-b-10">
+                <div class="f-s-12 f-w400 ">Total Entries {{routesCount}}</div>
+            </div>
+
+        </div>
+        <div class="item-box1 w-25 m-r-5 p-15 flex-column">
+            <div class="fb-item p-10" *ngIf="loader">
+                <div class="first-section-wrapper">
+                  <div class="gravatar flex-column align-center j-center t-a-center">
+                    <ngx-skeleton-loader
+                      appearance="circle"
+                      [theme]="{ width: '80px', height: '80px' }"
+                    >
+                    </ngx-skeleton-loader>
+                  </div>
+                  <div class="gravatar-title">
+                    <div>
+                      <ngx-skeleton-loader
+                        [theme]="{
+                          width: '200px',
+                          'border-radius': '0',
+                          height: '15px',
+                          'margin-bottom': '10px'
+                        }"
+                      ></ngx-skeleton-loader>
+                    </div>
+                    <div>
+                      <ngx-skeleton-loader
+                        [theme]="{ width: '170px', 'border-radius': '0', height: '15px' }"
+                      >
+                      </ngx-skeleton-loader>
+                    </div>
+                  </div>
+                </div>
+                <ngx-skeleton-loader count="4" animation="progress"></ngx-skeleton-loader>
+            </div>
+            <ng-container *ngIf="!loader">
+                <p class="d-flex j-end c-gr f-s-13 f-w400 p-5"><span class="m-r-4"><img
+                            src="assets/icons/double-check.png" width="13px" height="12px" alt="" srcset=""></span>
+                    <span>Active</span> </p>
+                <div class="flex-column align-center j-center t-a-center">
+                    <img src="assets/icons/route-circle.png" style="opacity:0.95" width="80px" height="80px" alt="" srcset="">
+                    <div class="f-w500 f-s-12 t-a-center">{{selectedRte?.Route_Name | uppercase}}</div>
+                </div>
+                <div class="rte-details f-s-12  m-t-10">
+                    <div class="f-w400">Route Created Date:</div>
+                    <div class="f-w400">{{selectedRte?.Created_Date | date:'dd-MM-yyyy'}}</div>
+                    <div class="f-w400">Route Created:</div>
+                    <div class="f-w400">{{selectedRte?.RouteCreated_By}}</div>
+                    <div class="f-w400">Last Updated:</div>
+                    <div class="f-w400">{{selectedRte?.LastUpdated_Date | date:'dd-MM-yyyy'}}</div>
+                </div>
+                <div class="m-t-10 p-2">
+                    <div class="f-w500 f-s-13 p-5">Locations ({{selectedRte?.ChildLocation_Count}})</div>
+                    <div class="f-w500 f-s-13 p-5">Machineries ({{selectedRte?.Machine_Count}})</div>
+                    <div class="f-w500 f-s-13 p-5">Total Collections (${{selectedRte?.Total_collection}})</div>
+                </div>
+                <div class="flex-column  j-end m-t-30">
+                    <div class=" d-flex t-a-center align-start j-center">
+                        <img src="assets/icons/employee.png" width="15px" height="14px" alt="" srcset="">
+                        <div class="m-l-4 f-s-12 f-w400">Add Secondary</div>
+                    </div>
+                    <div class="d-flex align-end t-a-center j-center m-t-20">
+                        <button class="read-more f-s-11 p-l-20 p-r-20 p-5">Read More</button>
+                    </div>
+                </div>
+
+            </ng-container>
+
+
+        </div>
+
+    </div>
+
+
+</ng-container>

@@ -16,6 +16,7 @@ export class MoveService {
   setDraggedItems(temp: any){
     return this.draggedItem.next(temp);
   }
+  
   getDropPoint(){
     return this.dropPoint.asObservable();
   }

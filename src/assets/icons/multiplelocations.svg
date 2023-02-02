@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11.249" height="17.252" viewBox="0 0 11.249 17.252">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_550" data-name="Path 550" d="M-1036.35,2289.228a25.836,25.836,0,0,0-4,1.338c-.362.362-1.43,3.316-.4,4.868s-1.241,2.224-1.241,2.224l-3.517-6.361v-5.741l2.276-1.862,5.482-.776h2.482v4.81Z" transform="translate(1045.504 -2282.918)" fill="#0b218f"/>
+    </clipPath>
+  </defs>
+  <g id="Group_425" data-name="Group 425" transform="translate(-478.496 -158)">
+    <path id="Icon_material-location-on" data-name="Icon material-location-on" d="M10.831,3A3.352,3.352,0,0,0,7.5,6.376c0,2.532,3.331,6.271,3.331,6.271s3.331-3.738,3.331-6.271A3.352,3.352,0,0,0,10.831,3Zm0,4.582a1.206,1.206,0,1,1,1.19-1.206A1.2,1.2,0,0,1,10.831,7.582Z" transform="translate(475.083 161.853)" fill="none" stroke="#0b218f" stroke-width="1"/>
+    <path id="Icon_material-location-on-2" data-name="Icon material-location-on" d="M9.368,3A1.88,1.88,0,0,0,7.5,4.893c0,1.42,1.868,3.516,1.868,3.516s1.868-2.1,1.868-3.516A1.88,1.88,0,0,0,9.368,3Zm0,2.57a.676.676,0,1,1,.667-.676A.672.672,0,0,1,9.368,5.57Z" transform="translate(476.798 155.668)" fill="none" stroke="#0b218f" stroke-width="1"/>
+    <g id="Mask_Group_2" data-name="Mask Group 2" transform="translate(478.496 158)" clip-path="url(#clip-path)">
+      <path id="Icon_material-location-on-3" data-name="Icon material-location-on" d="M10.831,3A3.352,3.352,0,0,0,7.5,6.376c0,2.532,3.331,6.271,3.331,6.271s3.331-3.738,3.331-6.271A3.352,3.352,0,0,0,10.831,3Zm0,4.582a1.206,1.206,0,1,1,1.19-1.206A1.2,1.2,0,0,1,10.831,7.582Z" transform="translate(-6.742 0.373)" fill="none" stroke="#0b218f" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

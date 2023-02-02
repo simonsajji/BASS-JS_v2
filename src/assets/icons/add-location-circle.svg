@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="43.086" height="43.086" viewBox="0 0 43.086 43.086">
+  <defs>
+    <filter id="Path_628" x="0" y="0" width="43.086" height="43.086" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_2136" data-name="Group 2136" transform="translate(-1664.954 -268.156)">
+    <g transform="matrix(1, 0, 0, 1, 1664.95, 268.16)" filter="url(#Path_628)">
+      <path id="Path_628-2" data-name="Path 628" d="M12.543,0A12.543,12.543,0,1,1,0,12.543,12.543,12.543,0,0,1,12.543,0Z" transform="translate(9 6)" fill="#0b218f"/>
+    </g>
+    <g id="Icon_material-location-on" data-name="Icon material-location-on" transform="translate(1681.656 281.345)">
+      <path id="Icon_material-location-on-2" data-name="Icon material-location-on" d="M12.34,3A4.793,4.793,0,0,0,7.5,7.751c0,3.563,4.84,8.823,4.84,8.823s4.84-5.26,4.84-8.823A4.793,4.793,0,0,0,12.34,3Zm0,6.447a1.7,1.7,0,1,1,1.729-1.7A1.714,1.714,0,0,1,12.34,9.447Z" transform="translate(-7.5 -3)" fill="none" stroke="#fff" stroke-width="1"/>
+    </g>
+    <path id="Icon_awesome-plus" data-name="Icon awesome-plus" d="M8.08,5.668h-2.8v-2.8a.622.622,0,0,0-.622-.622H4.04a.622.622,0,0,0-.622.622v2.8H.622A.622.622,0,0,0,0,6.29v.622a.622.622,0,0,0,.622.622h2.8v2.8a.622.622,0,0,0,.622.622h.622a.622.622,0,0,0,.622-.622v-2.8h2.8A.622.622,0,0,0,8.7,6.911V6.29A.622.622,0,0,0,8.08,5.668Z" transform="translate(1687.776 277.095)" fill="#0b218f" stroke="#fff" stroke-width="1"/>
+  </g>
+</svg>

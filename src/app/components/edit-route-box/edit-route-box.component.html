@@ -1,0 +1,42 @@
+<div  class="mat-parent flex-column " >
+    <ng-container >
+      <div class="f-s-12 f-w-500 m-b-2 w-100 d-flex j-space m-b-10">
+        <div class="f-w500 f-s-13">Select Route</div>
+        <mat-icon class="m-r-2" (click)="cancelClick()">close</mat-icon>
+     </div> 
+     <mat-spinner style="z-index:1000!important;position: absolute!important;top:50%;left:49%" diameter="45" *ngIf="loader">
+    </mat-spinner>
+      <hr class="hor-line"/>
+      <div class="d-flex  j-space m-t-10 m-b-10 m-l10 m-r10">
+        <div class="route-box d-flex align-center f-s-11 f-w400 p-t-5 p-b-5">[200] NS -JNINF NFNEIAF -60 DAYS - JIM G</div>
+        <div class="add-btn d-flex align-center j-center m-l-10 p-t-5 p-b-5">
+            <img src="assets/icons/route.svg" alt="" srcset="" width="15px" height="14px">
+            <div (click)="okClick()" class="f-s-11 p-l-2">Add Route</div>
+        </div>
+      </div>
+      <div class="f-s-12 dropdown-menu-h d-flex align-center j-space p-l-10 p-r-10 m-l10 m-r10 m-b-5 m-t-10 p-t-5 p-b-5">
+        <div class="f-s-12 f-w400">Select Route</div>
+        <i class="fa f-s-15 fa-angle-down"></i>
+      </div>
+      <div class="item-box1 m-l10 m-r10 w-80" style="min-height:30vh">
+        <div  class="d-flex align-center main-search-bar p-l-10 p-r-15 m-r-15 m-l-5 m-t-10 j-end">
+          <input class="f-s-12 p-5 p-l-10" type="text" placeholder="Search Route">
+          <i class="fa fa-search fa-flip-horizontal sb f-s-12 " ></i>
+        </div>
+        <div class="list-ctn"  >
+          <div *ngFor="let route of datanew" class="p-r-20 p-l-20 p-5 align-center d-flex list-item">
+            <div class="f-s-11 f-w400">{{route?.Route_Name}}</div>
+          </div>
+
+        </div>
+        
+
+      </div>  
+    </ng-container>
+     
+    
+  
+  </div>
+  
+  
+  

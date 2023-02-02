@@ -1,5 +1,5 @@
 <div *ngIf="loader" class="d-flex w-100  align-center j-center loader2">
-    <mat-spinner [diameter]="50"></mat-spinner>
+    <!-- <mat-spinner [diameter]="50"></mat-spinner> -->
 </div>
 
 <ng-container >
@@ -29,49 +29,64 @@
             </div> -->
         </div>
     
-        <div *ngIf="branchView && !loader" class="item-box6 m-b-5 p-t-10 p-b-5 w-100 flex-column r-ctr">
-            <div class="w-100 m-t-5 m-l-0 m-r-0  d-flex p-l-12 p-r-12  ">
-                <div class="p-10 flex-column align-center j-center card m-r-10">
-                    <div class="f-s-12 flex-column align-center j-center p-10 c-gr " >
-                        <img src="assets/icons/gear.png" alt="" height="40px" width="40px">
-                        <div class="p-10" >Machinery (4256)</div> 
+        <div *ngIf="branchView && !loader" class="item-box7 m-b-5 p-t-10 p-b-5 w-100 flex-column r-ctr">
+            <div class="row w-100 m-t-5 m-l-0 m-r-0  d-flex p-l-0 p-r-0  ">
+                <div class="p-10 d-flex align-center j-center card m-r-10 ">
+                    <div class="f-s-12 d-flex align-center j-center  " >
+                        <img src="assets/icons/navigation.png" alt="" height="70%" width="70%" class="img-card">
+                        <div class="p-5 flex-column p-r-0" >
+                            <div class="f-w-500 f-s-24 c-drk text-overfl txt-width">14</div>
+                            <div class="f-w-500 ">Routes</div>
+                        </div> 
                     </div>
                 </div>
-                <div class="p-10 flex-column align-center j-center card m-r-10">
-                    <div class="f-s-12 flex-column align-center j-center p-10 p-l-5 p-r-5 c-gr" >
-                        <img src="assets/icons/dollar6.png" alt="" height="40px" width="40px">
-                        <div class="p-5">Collections ($25256)</div> 
+                
+                <div class="p-10 d-flex align-center j-center card m-r-10 ">
+                    <div class="f-s-12 d-flex align-center j-center ">
+                        <img src="assets/icons/location3.png" alt="" height="70%" width="70%" class="img-card">
+                        <!-- <i class="fa fa-map-marker f-s-18" style="color:lightseagreen" aria-hidden="true"></i> --> 
+                        <div class="p-5 flex-column p-r-0" >
+                            <div class="f-w-500 f-s-24 c-drk text-overfl txt-width">{{selectedBranch?.LocationCount}}</div>
+                            <div class="f-w-500 ">Locations</div>
+                        </div>
                     </div>
                 </div>
-                <div class="p-10 flex-column align-center j-center card m-r-10">
-                    <div class="f-s-12 flex-column align-center j-center p-10 c-gr" >
-                        <img src="assets/icons/user.png" alt="" height="40px" width="40px">
-                        <div class="p-10">Techinicians (12)</div> 
+                <div class="p-10 d-flex align-center j-center card m-r-10 ">
+                    <div class="f-s-12 d-flex align-center j-center  " >
+                        <img src="assets/icons/user.png" alt="" height="70%" width="70%" class="img-card">
+                        <div class="p-5 flex-column p-r-0" >
+                            <div class="f-w-500 f-s-24 c-drk text-overfl txt-width">24</div>
+                            <div class="f-w-500 ">Technicians</div>
+                        </div> 
                     </div>
                 </div>
-                <div class="p-10 flex-column align-center j-center card m-r-10">
-                    <div class="f-s-12 flex-column align-center p-10 c-gr" >
-                        <img src="assets/icons/route2.png" alt="" height="40px" width="40px">
-                        <div class="p-10">Routes (14)</div> 
+                <div class="p-10 d-flex align-center j-center card m-r-10 ">
+                    <div class="f-s-12 d-flex align-center j-center   " >
+                        <img src="assets/icons/gear.png" alt="" height="50%" width="50%" class="img-card">
+                        <div class="p-5 flex-column p-r-0" >
+                            <div class="f-w-500 f-s-24 c-drk text-overfl txt-width">700</div>
+                            <div class="f-w-500 ">Machinery</div>
+                        </div> 
                     </div>
                 </div>
-                <div class="p-10 flex-column align-center j-center card ">
-                    <div class="f-s-12 flex-column align-center p-10 c-gr">
-                        <img src="assets/icons/location3.png" alt="" height="40px" width="40px">
-                        <!-- <i class="fa fa-map-marker f-s-18" style="color:lightseagreen" aria-hidden="true"></i> -->
-                        <div class="p-10">Locations ({{selectedBranch?.LocationCount}})</div> 
+                <div class="p-10 d-flex align-center j-center card m-r-10 ">
+                    <div class="f-s-12 d-flex align-center j-center " >
+                        <img src="assets/icons/dollar6.png" alt="" height="70%" width="70%" class="img-card">
+                        <div class="p-5 flex-column p-r-0 " >
+                            <div class="f-w-500 f-s-24 c-drk text-overfl txt-width">1454222</div>
+                            <div class="f-w-500 ">Collections</div>
+                        </div> 
                     </div>
-                </div>
+                </div>              
             
             </div>
             <!-- <div class="empty-space flex-1"> </div> -->
-            <div class=" d-flex w-100 align-center p-l-10 p-r-10 ">
+            <!-- <div class=" d-flex w-100 align-center p-l-10 p-r-10 ">
                 <div class=" sub-head unrouted d-flex align-center m-l-5 w-100 p-t-5 p-b-5 f-w-400 f-s-13">
                     <span  #rw> 
-                        <!-- <i  class="fa fa-angle-down f-s-18 p-r-10 fa-fw"></i>  -->
                         <i class="fa fa-angle-right f-s-18 p-r-10 fa-fw"></i> 
                        <img class="m-r-2 m-l-2" src="assets/icons/multiplelocations.png" alt="" height="23px" width="19px"> <span class="f-s-12 p-l-2">RECENT WORKS</span></span>  <hr [style.width]="'calc(98% - ' + (rw.clientWidth) + 'px)'"  class="hor-line "></div>
-            </div>
+            </div> -->
             <!-- <p class="light-blue f-s-11 f-w-500 p-l-15 p-r-10">5 places were moved to the below Route by Henderson Sherry</p>
             <div class="w-100  p-10 p-b-5  loc-container grid-container  w-100">
                 <ng-container  *ngFor="let location of branches[0].locations?.routes[0].locs"  >
@@ -126,8 +141,8 @@
         </div>
         <div *ngIf="routesView" class=" m-b-10 p-t-10  p-b-10 w-100 flex-column r-ctr1">
             <div class="f-s-13 f-w-500 c-gr d-flex t-a-left w-100 m-l-10" *ngIf="draggeditem?.length>0"> <span class="light-blue m-r-10 c-pointer"(click)="clearSelectedLocations()" >Clear</span>  <span class="m-r-2">{{draggeditem?.length}} Locations</span> <span class="f-w-400">selected</span> </div>
-            <app-skeleton-loader *ngIf="dataloader" [loaderDatas]="[1,2,3]" [higherWidth]="70" [lowerWidth]="65"
-            [gridColumn]="1"></app-skeleton-loader>
+            <!-- <app-skeleton-loader *ngIf="dataloader" [loaderDatas]="[1,2,3]" [higherWidth]="70" [lowerWidth]="65"
+            [gridColumn]="1"></app-skeleton-loader> -->
             <div *ngIf="!dataloader" class="w-100 m-t-5 m-l-0 m-r-0">
                 <div *ngIf="selectedRoute?.Locations?.length==0" class="d-flex align-center j-center c-gr f-s-15 empty-space ">
                     No Locations to Show

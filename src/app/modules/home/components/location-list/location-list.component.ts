@@ -1,26 +1,33 @@
-import { NavigationEnd, Router } from '@angular/router';
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation,ViewChild,ChangeDetectorRef ,OnChanges, SimpleChanges, Pipe, PipeTransform,AfterViewInit } from '@angular/core';
 import { MsalBroadcastService, MsalGuardConfiguration, MsalService, MSAL_GUARD_CONFIG } from '@azure/msal-angular';
 import { InteractionStatus, RedirectRequest } from '@azure/msal-browser';
 import { filter, Subject, Subscription, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginService } from 'src/app/services/login.service';
 import { ApiService } from 'src/app/services/api.service';
-import { ConfirmBoxComponent } from '../confirm-box/confirm-box.component';
+import { ConfirmBoxComponent } from '../../../../components/confirm-box/confirm-box.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrServices } from 'src/app/services/toastr.service';
 import { ToastrService } from 'ngx-toastr';
 import { A11yModule } from '@angular/cdk/a11y';
 import { MoveService } from 'src/app/services/move.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { FormControl } from '@angular/forms';
+import { TooltipPosition } from '@angular/material/tooltip';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { animate, state, style, transition, trigger } from '@angular/animations'; 
+import { Location } from '@angular/common';
+
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  host: {
-    '(document:click)': '(onBodyClick($event))'
-  }
+  selector: 'app-location-list',
+  templateUrl: './location-list.component.html',
+  styleUrls: ['./location-list.component.css']
 })
-export class HomeComponent implements OnInit {
+export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
+
   isUserLoggedIn:boolean = false;
   _routeListener: any;
   currentAccount:any;
@@ -28,20 +35,7 @@ export class HomeComponent implements OnInit {
   fetchedBranches:any;
   draggeditem:any = [];
   dropArea:any;
-  branches:any = [
-    {branchname:'',locations:{dropdown:true,selected:true,unrouted:[],
-      routes:[
-        {route:'[227] dalhouse/dmtcmbt/edmstn 90 days-jh',routeid:101,locs:[{locname:'Canadian tire gas bar (35 Broadway)',id:82378},{locname:'ultramar ind(2 cameron rd)',id:75612},{locname:'couche tarmac (382 rue street Canada)',id:90234},{locname:'irving mainway - st leonard382 rue st-jean)',id:24556},{locname:'parkland/ultramar55 rosebury st)',id:97685}]}
-      ,{route:'bthrst/negac/mramchi/blckvil - 90 days -jh',routeid:102,locs:[{locname:'10105 99 St, Nampa',id:45524},{locname:'AB-690, Deadwood, AB T0H 1A0, Canada',id:23424},{locname:'global fuels (120 canada rd)',id:63453},{locname:'bg fuels/mobil577 victoria street)',id:35735}]}
-     ],loclength:0}},
-    {branchname:'',locations:{dropdown:false,selected:false,unrouted:[],
-      routes:[
-        {route:'[227] dalhouse/dmtcmbt/edmstn 90 days-jh',routeid:201,locs:[{locname:'ultramar ind(2 cameron rd)',id:74823},{locname:'bg fuels/mobil577 victoria street)',id:39983}]}
-     ],loclength:0}},
-    {branchname:'',locations:{dropdown:false,selected:false,unrouted:[],routes:[],loclength:0}}];
-
   branchData:any;
-
   contextmenu = false;
   contextmenuX = 0;
   contextmenuY = 0;
@@ -54,49 +48,145 @@ export class HomeComponent implements OnInit {
   loader:any;
   isDragActive:boolean = false;
   dataloader:boolean = false;
+  selection = new SelectionModel<any>(true, []);
+  dataSource: any ;
+  positionOptions: TooltipPosition[] = ['after', 'before', 'above', 'below', 'left', 'right'];
+  position = new FormControl(this.positionOptions[4]);
+  pageSizeperPage:any;
+  data:any = [] ;
+  shownColumns:any = ['Location_Id','StoreName','Route_Name','First_Name','Total_Machine'];
+  isFilterActive:any;
+  filteredColumns: any = [];
+  enabledAddressFilter: boolean = true;
+  enabledLocationNameFilter: boolean = true;
+  enabledAddressLine1Filter: boolean = true;
+  enabledRouteFilter: boolean = true;
+  enabledOnRouteFilter: boolean = true;
+  orderedColumns: any;
+  masterCheckbox: boolean = false;
+  pgIndex: any = 0;
+  routeDetailState:any;
+  selectedLoc:any;
+  loaderFetchRouteDetails:any;
+  currentBranchId:any;
+  routesCount:any;
+  locationsCount:any;
+  @ViewChild('filterName') filterName: any;
+
+  @ViewChild('matpaginatr') paginator: MatPaginator | any;
 
   constructor(@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig:MsalGuardConfiguration,
-  private msalBroadCasrService:MsalBroadcastService,
-  private authService:MsalService,private loginService:LoginService,private router:Router,private apiService:ApiService,private dialog: MatDialog,private toastr: ToastrServices,private moveService:MoveService) { 
+  private msalBroadCasrService:MsalBroadcastService,private cdr: ChangeDetectorRef,private locationCommon:Location,
+  private authService:MsalService,private loginService:LoginService,private router:Router,private apiService:ApiService,private dialog: MatDialog,private toastr: ToastrServices,private moveService:MoveService,private activatedRoute:ActivatedRoute) { 
     this._routeListener = router.events.subscribe((event) => {
       if (event instanceof NavigationEnd){
          this.isUserLoggedIn = true;
+         this.activatedRoute.queryParams.subscribe((params) => {
+          this.currentBranchId = params['branchId'];
+          this.routesCount = params['routesCount'];
+          this.locationsCount = params['locationsCount'];
+          console.log(this.currentBranchId); // OUTPUT 123
+          this.getAllBranches();
+          this.getAllLocationsofBranch();
+        });
       }
-    })
+    });
   }
 
   ngOnInit(): void {
-    // this.loginService.getLoginStatus().subscribe((item) => {
-    //   this.isUserLoggedIn = item;
-    // })
+    this.pageSizeperPage = 8;
+   this.routeDetailState = false;
+  
    this.currentAccount =  this.authService?.instance?.getAllAccounts()[0];
    console.log(this.currentAccount);
-   this.getAllBranches();
-   this.branches?.forEach((element:any) => {
-    element?.locations?.routes?.forEach((route:any)=>{
-      element.locations.loclength+=route?.locs?.length;
-    })
-    element?.locations?.unrouted?.forEach((route:any)=>{
-      element.locations.loclength+=route?.locs?.length;
-    })
-   });
+   
    if(this.branchData) this.branchData[0].dropped = true;
    this.branchView = true;
    this.routesView = false;
    this.locationsView = false;
-   if(this.branchData) this.selectedBranch = this.branchData[0];
-   this.moveService.getDropPoint().subscribe((item:any) => {
-    this.dropPoint = item;
-  });
+    if(this.branchData) this.selectedBranch = this.branchData[0];
+    this.moveService.getDropPoint().subscribe((item:any) => {
+      this.dropPoint = item;
+    });
+
+  
   }
+
+  ngAfterViewInit() {
+    // this.dataSource = new MatTableDataSource<any>(this.data);
+    this.dataSource = new MatTableDataSource<any>([]);
+    // this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // this.selection = this.tableService.getSelectionModel();
+  }
+
+  changeState(): void {
+    // (this.routeDetailState == false) ? this.routeDetailState = true : this.routeDetailState = false;
+  }
+
+  viewRouteDetails(row:any){
+    console.log(row);
+   this.selectedLoc = row;
+
+  }
+
+  applyFilter(filterValue: any, column: any) {
+    // this.selection.deselect(...this.getPageData())
+    if (filterValue.target?.value == '') {
+      this.isFilterActive = false;
+      this.filteredColumns.map((item: any, idx: any) => {
+        if (item == column) this.filteredColumns.splice(idx, 1)
+      });
+      this.clearAllFilters();
+      // this.tableService.clearSelectionModel();
+    }
+    else {
+      if (column == 'Title') {
+        this.enabledRouteFilter = false;
+        this.enabledAddressLine1Filter = false;
+        this.enabledLocationNameFilter = true;
+      }
+    
+
+      this.isFilterActive = true;
+      this.filteredColumns.push(column);
+      this.dataSource.filterPredicate = function (data: any, filter: string): any {
+        if (column == 'Title') return data?.Title?.toLowerCase().includes(filter);
+
+      };
+      if (filterValue?.target?.value) filterValue = filterValue.target?.value?.trim().toLowerCase();
+      else filterValue = filterValue;
+      this.dataSource.filter = filterValue;
+      this.cdr.detectChanges();
+    }
+  }
+
+  clearAllFilters() {
+    this.applyFilter('', '');
+    this.enabledLocationNameFilter = true;
+    if (this.filterName?.nativeElement) this.filterName.nativeElement.value = '';
+
+    this.isFilterActive = false;
+  }
+
+  onChangedPage(event: any) {
+    this.pageSizeperPage = event?.pageSize;
+    this.masterCheckbox = false;
+  
+  
+  }
+
 
   logout(ev:any){
     if(ev) this.authService.logoutRedirect({postLogoutRedirectUri:environment?.postLogoutUrl});
   }
 
   getAllBranches(){
+    this.loader = true;
     this.apiService.get('http://bassnewapi.testzs.com/api/Branch/BranchList').subscribe((res)=>{
-      res.sort((a:any,b:any) => (a.BranchName > b.BranchName) ? 1 : ((b.BranchName > a.BranchName) ? -1 : 0));
+      res.sort((a:any,b:any) => (a.Branch_Name > b.Branch_Name) ? 1 : ((b.Branch_Name > a.Branch_Name) ? -1 : 0));
       console.log(res);
       this.branchData = res;
       this.branchData.forEach((branch:any)=>{
@@ -111,39 +201,38 @@ export class HomeComponent implements OnInit {
       this.locationsView = false;
       this.selectedBranch = this.branchData[0];      
       console.log(this.branchData);
-      res.forEach((element:any,idx:any)=> {
-        this.branches.forEach((item:any,index:any)=>{
-          if(idx == index) item.branchname = element?.BranchName;
-        })
-      });
-
+      // this.loader = false;
     });
   }
 
-  getAllRoutesofBranch(obj:any){
-    let branch = obj?.branch;
-    let viewtype = obj?.view;
-    console.log(branch,viewtype)
-    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/RouteList/${branch?.BranchId}`).subscribe((res)=>{
+  getAllLocationsofBranch(){
+    this.loader = true;
+    // this.dataSource = new MatTableDataSource<any>([]);
+    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${this.currentBranchId}`).subscribe((res)=>{
       console.log(res);
-      if(branch.branchId == res[0].branchId){
-        if(viewtype == 'locationsView'){
-          this.branchData.forEach((item:any)=>{
-            if(item.BranchId != branch?.BranchId) item.showRoutesList = false;
-          })
-          branch.showRoutesList = true;
-        }
-        else if(viewtype == 'dropView') branch.routesDropped = true;
-        branch.Routes = res;
-        this.loader = false;
-      }
+      this.data = res;
+      this.dataSource.data = res;
+      this.selectedLoc = this.data[0];
+      // setTimeout(()=>{
+      //   this.loader = false;
+      // }, 2000);
+      this.loader = false;
+      // this.dataSource.paginator = this.paginator;
+     
     })
   }
 
+  goToLocationDetails(){
+    this.router.navigate(['home/location-details'],
+    // {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count}}
+    {queryParams:{locationId: this.selectedLoc?.Location_Id,branchId:this.selectedLoc?.Branch_Id},skipLocationChange:true}
+    )
+  }
+
   getLocationsofRoute(route:any){
-    console.log(route?.RouteId);
+    console.log(route?.Route_Id);
     // this.loader = true;
-    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.RouteId}`).subscribe((res)=>{
+    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.Route_Id}`).subscribe((res)=>{
       // console.log(res);
       route.Locations = res;
       route.isrouteDropped = true;
@@ -169,14 +258,14 @@ export class HomeComponent implements OnInit {
   expandBranch(branch:any){
     // this.shrinkAllBranches();
     this.branchData?.forEach((element:any)=>{
-      if(element?.BranchId == branch?.BranchId) element.dropped = true;
+      if(element?.Branch_Id == branch?.Branch_Id) element.dropped = true;
       // else element.dropped = false;
     })
   }
 
   shrinkBranch(branch:any){
     this.branchData?.forEach((element:any)=>{
-      if(element?.BranchId == branch?.BranchId) element.dropped = false;
+      if(element?.Branch_Id == branch?.Branch_Id) element.dropped = false;
     })
   }
 
@@ -192,7 +281,7 @@ export class HomeComponent implements OnInit {
   }
 
   selectBranchLocation(branch:any){
-    this.getAllRoutesofBranch({branch:branch,view:'locationsView'})
+    // this.getAllRoutesofBranch({branch:branch,view:'locationsView'})
     this.branchView = false;
     this.routesView = false;
     this.selectedRoute = '';
@@ -216,7 +305,7 @@ export class HomeComponent implements OnInit {
   }
 
   getDetailsofSelectedRoute(route:any){
-    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.RouteId}`).subscribe((res)=>{
+    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.Route_Id}`).subscribe((res)=>{
       if(res){
         route.Locations = res;
         route?.Locations.forEach((item:any)=>{
@@ -290,7 +379,7 @@ export class HomeComponent implements OnInit {
         // add location from new route
         this.branchData?.forEach((element:any) => {
           element?.Routes?.forEach((route:any)=>{
-            if(this.dropArea?.RouteId == route?.RouteId) route?.Locations?.push(...this.draggeditem)
+            if(this.dropArea?.Route_Id == route?.Route_Id) route?.Locations?.push(...this.draggeditem)
           })
         });
         this.toastr.success(`Moved  ${this.draggeditem.length} Locations to Route ${this.dropArea?.RouteName}  successfully`);
@@ -324,13 +413,14 @@ export class HomeComponent implements OnInit {
 
   itemDrop(ev:any,route:any){
     this.dropArea = route;
-    console.log(this.dropArea?.RouteId,  this.draggeditem[0]?.RouteId)
-    if(this.draggeditem && this.dropArea && (this.dropArea?.RouteId != this.draggeditem[0]?.RouteId)) this.moveLocation();
+    console.log(this.dropArea?.Route_Id,  this.draggeditem[0]?.Route_Id)
+    if(this.draggeditem && this.dropArea && (this.dropArea?.Route_Id != this.draggeditem[0]?.Route_Id)) this.moveLocation();
   }
 
   drgEnter(ev:any){
     this.moveService.setDropPoint(null);
   }
+  
   drgEv(ev:any){
     this.moveService.setDropPoint(this.dropPoint);
   }

@@ -1,25 +1,34 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthenticationComponent } from './modules/authentication/components/authentication.component';
-import { HomeComponent } from './components/home/home.component';
 import { MsalGuard } from '@azure/msal-angular';
-import { ProfileComponent } from './components/profile/profile.component';
+
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
-    path:'profile',
-    component:ProfileComponent,
-    canActivate:[MsalGuard]
+    path: '',
+    component: AppComponent,
+    data: {
+      title: 'Home'
+    },
+    children: [
+      {
+        path: 'home',
+        // canActivate:[MsalGuard],
+        
+        loadChildren: () =>
+          import('./modules/home/home.module').then((m) => m.HomeModule)
+      },
+      {
+        path: '',
+         // canActivate:[MsalGuard],
+        loadChildren: () =>
+          import('./modules/authentication/authentication.module').then((m) => m.AuthenticationModule)
+      },
+    
+    ]
   },
-  {
-    path:'home',
-    component:HomeComponent,
-    canActivate:[MsalGuard]
-  },
-  {
-    path:'',
-    component:AuthenticationComponent
-  }
 ];
 
 @NgModule({

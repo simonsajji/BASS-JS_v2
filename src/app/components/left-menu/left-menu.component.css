@@ -111,20 +111,20 @@
 .item-box {
     /* height: auto; */
     background: #fff;
-    border: 0.1rem solid #8383834f;
+    border: 0.15rem solid #9191914f;
     border-radius: 7px;
     min-height: calc(100vh - 120px);
 }
 .item-box1{
     /* height: auto; */
     background: #fff;
-    border: 0.1rem solid #8383834f;
+    border: 0.15rem solid #9191914f;
     border-radius: 7px;
 }
 .item-box2{
     height: auto;
     background: #fff;
-    border: 0.065rem solid #7373734f;
+    border: 0.15rem solid #9191914f;
     border-radius: 7px;
     border-top: 0;
     border-top-left-radius: 0;
@@ -133,7 +133,7 @@
 .item-box3{
     height: auto;
     background: transparent;
-    border: 0.065rem solid #7373734f;
+    border: 0.15rem solid #9191914f;
     border-radius: 7px;
     border-top: 0;
     border-top-left-radius: 0;
@@ -142,7 +142,7 @@
 
 .item-box5{
     background: #fff;
-    border: 0.034rem solid #9f9f9f4f;
+    border: 0.15rem solid #9191914f;
     border-radius: 7px;
 
 }
@@ -150,7 +150,7 @@
 .item-box6{
     /* height: auto; */
     background: #fff;
-    border: 0.1rem solid #8383834f;
+    border: 0.15rem solid #9191914f;
     border-radius: 7px;
     min-height: calc(100vh - 240px);
 }
@@ -441,14 +441,19 @@
 }
 
 .selected{
-    background-color: rgb(247, 248, 248);
-    border-top:0.02rem solid rgba(226, 226, 226,0.97);
-    border-bottom:0.02rem solid rgba(226, 226, 226,0.97);
+    background-color: rgb(245, 245, 245);
+    /* border-top:0.02rem solid rgba(226, 226, 226,0.97);
+    border-bottom:0.02rem solid rgba(226, 226, 226,0.97); */
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;
+    font-weight: 500 !important;
+    font-family: 'OpenSans-semi-bold';
+    transition: all 0.1s ease-in;
 }
 
 .selected-item{
-    color:#25addf!important;
     font-weight: 500 !important;
+    transition: all 0.1s ease-in;
 }
 
 .selected-item > .count{
@@ -618,6 +623,9 @@ background-color: transparent;
 
 .hover-highlight.disable:hover > .count{
     color:black!important;
+}
+.count{
+    font-size: 12px!important;
 }
 
 .hover-highlight .count{
