@@ -21,28 +21,16 @@ import { MoveService } from 'src/app/services/move.service';
   // }
 })
 export class HomeComponent implements OnInit {
-
   isUserLoggedIn: boolean = false;
   _routeListener: any;
   currentAccount: any;
-  selectedTabIndex: number = 1;
-  fetchedBranches: any;
-  draggeditem: any = [];
-  dropArea: any;
   branchData: any;
-  contextmenu = false;
-  contextmenuX = 0;
-  contextmenuY = 0;
   branchView: boolean = false;
   locationsView: boolean = false;
   routesView: boolean = false;
   selectedBranch: any;
   selectedRoute: any;
-  dropPoint: any;
   loader: any;
-  isDragActive: boolean = false;
-  dataloader: boolean = false;
-
   constructor(@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private msalBroadCasrService: MsalBroadcastService,
     private authService: MsalService, private loginService: LoginService, private router: Router, private apiService: ApiService, private dialog: MatDialog, private toastr: ToastrServices, private moveService: MoveService) {
@@ -52,24 +40,18 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-
   ngOnInit(): void {
     // this.loginService.getLoginStatus().subscribe((item) => {
     //   this.isUserLoggedIn = item;
     // });
-
     this.currentAccount = this.authService?.instance?.getAllAccounts()[0];
     console.log(this.currentAccount);
     this.getAllBranches();
-
     if (this.branchData) this.branchData[0].dropped = true;
     this.branchView = true;
     this.routesView = false;
     this.locationsView = false;
     if (this.branchData) this.selectedBranch = this.branchData[0];
-    this.moveService.getDropPoint().subscribe((item: any) => {
-      this.dropPoint = item;
-    });
   }
 
   logout(ev: any) {
@@ -88,6 +70,7 @@ export class HomeComponent implements OnInit {
         branch.showRoutesList = false;
         branch.showLocationsList = false;
         branch.showMachinesList = false;
+        branch.showTechniciansList = false;
       })
       this.branchData[0].dropped = true;
       this.branchView = true;
@@ -125,43 +108,40 @@ export class HomeComponent implements OnInit {
       branch.showRoutesList = false;
       branch.showLocationsList = false;
       branch.showMachinesList = false;
+      branch.showTechniciansList = false;
     });
 
   }
 
   selectRouteView(branchId: any) {
-    console.log(branchId);
     this.unSetAll();
     this.branchData.forEach((branch: any) => {
-      if (branch?.Branch_Id == branchId) {
-        branch.showRoutesList = true;
-        // branch.selected = true;
-
-      }
+      if (branch?.Branch_Id == branchId) branch.showRoutesList = true;
       else branch.showRoutesList = false;
     });
   }
 
   selectLocationView(branchId: any) {
-    console.log(branchId);
     this.unSetAll();
     this.branchData.forEach((branch: any) => {
-      if (branch?.Branch_Id == branchId) {
-        branch.showLocationsList = true;
-        // branch.selected = true;
-      }
+      if (branch?.Branch_Id == branchId) branch.showLocationsList = true;
       else branch.showLocationsList = false;
     });
   }
+
   selectMachineView(branchId: any) {
-    console.log(branchId);
     this.unSetAll();
     this.branchData.forEach((branch: any) => {
-      if (branch?.Branch_Id == branchId) {
-        branch.showMachinesList = true;
-        // branch.selected = true;
-      }
+      if (branch?.Branch_Id == branchId) branch.showMachinesList = true;
       else branch.showMachinesList = false;
+    });
+  }
+
+  selectTechnicianView(branchId: any) {
+    this.unSetAll();
+    this.branchData.forEach((branch: any) => {
+      if (branch?.Branch_Id == branchId) branch.showTechniciansList = true;
+      else branch.showTechniciansList = false;
     });
   }
 

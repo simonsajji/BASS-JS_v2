@@ -121,22 +121,22 @@
                     <span>Active</span> </p>
                 <div class="flex-column align-center j-center t-a-center">
                     <img src="assets/icons/route-circle.png" style="opacity:0.95" width="80px" height="80px" alt="" srcset="">
-                    <div class="f-w500 f-s-12 t-a-center">{{selectedRte?.Route_Name | uppercase}}</div>
+                    <div class="f-w500 f-s-12 t-a-center">{{selectedRte?.Route_Name | uppercase | filterRouteName}}</div>
                 </div>
                 <div class="rte-details f-s-12  m-t-10">
-                    <div class="f-w400">Route Created Date:</div>
-                    <div class="f-w400">{{selectedRte?.Created_Date | date:'dd-MM-yyyy'}}</div>
-                    <div class="f-w400">Route Created:</div>
-                    <div class="f-w400">{{selectedRte?.RouteCreated_By}}</div>
-                    <div class="f-w400">Last Updated:</div>
-                    <div class="f-w400">{{selectedRte?.LastUpdated_Date | date:'dd-MM-yyyy'}}</div>
+                    <div class="f-w400 f-s-11">Route Created Date:</div>
+                    <div class="f-w400 f-s-11">{{selectedRte?.Created_Date | date:'dd-MM-yyyy'}}</div>
+                    <div class="f-w400 f-s-11">Route Created:</div>
+                    <div class="f-w400 f-s-11">{{selectedRte?.RouteCreated_By}}</div>
+                    <div class="f-w400 f-s-11">Last Updated:</div>
+                    <div class="f-w400 f-s-11">{{selectedRte?.LastUpdated_Date | date:'dd-MM-yyyy'}}</div>
                 </div>
                 <div class="m-t-10 p-2">
-                    <div class="f-w500 f-s-13 p-5">Locations ({{selectedRte?.ChildLocation_Count}})</div>
-                    <div class="f-w500 f-s-13 p-5">Machineries ({{selectedRte?.Machine_Count}})</div>
-                    <div class="f-w500 f-s-13 p-5">Total Collections (${{selectedRte?.Total_collection}})</div>
+                    <div class="f-w500 f-s-12 p-5">Locations ({{selectedRte?.ChildLocation_Count}})</div>
+                    <div class="f-w500 f-s-12 p-5">Machineries ({{selectedRte?.Machine_Count}})</div>
+                    <div class="f-w500 f-s-12 p-5">Total Collections (${{selectedRte?.Total_collection}})</div>
                 </div>
-                <div class="flex-column  j-end m-t-30">
+                <div class="flex-column  j-end m-t-30 p-t-10">
                     <div class=" d-flex t-a-center align-start j-center">
                         <img src="assets/icons/employee.png" width="15px" height="14px" alt="" srcset="">
                         <div class="m-l-4 f-s-12 f-w400">Add Secondary</div>

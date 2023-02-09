@@ -36,17 +36,10 @@ export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
   draggeditem:any = [];
   dropArea:any;
   branchData:any;
-  contextmenu = false;
-  contextmenuX = 0;
-  contextmenuY = 0;
   branchView:boolean = false;
   locationsView:boolean = false;
   routesView:boolean = false;
-  selectedBranch:any;
-  selectedRoute:any;
-  dropPoint:any;
   loader:any;
-  isDragActive:boolean = false;
   dataloader:boolean = false;
   selection = new SelectionModel<any>(true, []);
   dataSource: any ;
@@ -72,7 +65,6 @@ export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
   routesCount:any;
   locationsCount:any;
   @ViewChild('filterName') filterName: any;
-
   @ViewChild('matpaginatr') paginator: MatPaginator | any;
 
   constructor(@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig:MsalGuardConfiguration,
@@ -85,8 +77,6 @@ export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
           this.currentBranchId = params['branchId'];
           this.routesCount = params['routesCount'];
           this.locationsCount = params['locationsCount'];
-          console.log(this.currentBranchId); // OUTPUT 123
-          this.getAllBranches();
           this.getAllLocationsofBranch();
         });
       }
@@ -96,40 +86,20 @@ export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
   ngOnInit(): void {
     this.pageSizeperPage = 8;
    this.routeDetailState = false;
-  
    this.currentAccount =  this.authService?.instance?.getAllAccounts()[0];
-   console.log(this.currentAccount);
-   
-   if(this.branchData) this.branchData[0].dropped = true;
    this.branchView = true;
    this.routesView = false;
-   this.locationsView = false;
-    if(this.branchData) this.selectedBranch = this.branchData[0];
-    this.moveService.getDropPoint().subscribe((item:any) => {
-      this.dropPoint = item;
-    });
-
-  
+   this.locationsView = false;  
   }
 
   ngAfterViewInit() {
-    // this.dataSource = new MatTableDataSource<any>(this.data);
     this.dataSource = new MatTableDataSource<any>([]);
-    // this.dataSource.paginator = this.paginator;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // this.selection = this.tableService.getSelectionModel();
-  }
+  ngOnChanges(changes: SimpleChanges) {  }
 
-  changeState(): void {
-    // (this.routeDetailState == false) ? this.routeDetailState = true : this.routeDetailState = false;
-  }
-
-  viewRouteDetails(row:any){
-    console.log(row);
+  viewLocationDetails(row:any){
    this.selectedLoc = row;
-
   }
 
   applyFilter(filterValue: any, column: any) {
@@ -148,7 +118,6 @@ export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
         this.enabledAddressLine1Filter = false;
         this.enabledLocationNameFilter = true;
       }
-    
 
       this.isFilterActive = true;
       this.filteredColumns.push(column);
@@ -174,41 +143,16 @@ export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
   onChangedPage(event: any) {
     this.pageSizeperPage = event?.pageSize;
     this.masterCheckbox = false;
-  
-  
   }
-
 
   logout(ev:any){
     if(ev) this.authService.logoutRedirect({postLogoutRedirectUri:environment?.postLogoutUrl});
   }
 
-  getAllBranches(){
-    this.loader = true;
-    this.apiService.get('http://bassnewapi.testzs.com/api/Branch/BranchList').subscribe((res)=>{
-      res.sort((a:any,b:any) => (a.Branch_Name > b.Branch_Name) ? 1 : ((b.Branch_Name > a.Branch_Name) ? -1 : 0));
-      console.log(res);
-      this.branchData = res;
-      this.branchData.forEach((branch:any)=>{
-        branch.selected = false;
-        branch.dropped = false;
-        branch.routesDropped = false;
-        branch.showRoutesList = false;
-      })
-      this.branchData[0].dropped = true;
-      this.branchView = true;
-      this.routesView = false;
-      this.locationsView = false;
-      this.selectedBranch = this.branchData[0];      
-      console.log(this.branchData);
-      // this.loader = false;
-    });
-  }
-
   getAllLocationsofBranch(){
     this.loader = true;
     // this.dataSource = new MatTableDataSource<any>([]);
-    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${this.currentBranchId}`).subscribe((res)=>{
+    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList?BranchId=${this.currentBranchId}&Active=true`).subscribe((res)=>{
       console.log(res);
       this.data = res;
       this.dataSource.data = res;
@@ -218,211 +162,13 @@ export class LocationListComponent implements OnInit,OnChanges,AfterViewInit {
       // }, 2000);
       this.loader = false;
       // this.dataSource.paginator = this.paginator;
-     
     })
   }
 
   goToLocationDetails(){
     this.router.navigate(['home/location-details'],
-    // {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count}}
     {queryParams:{locationId: this.selectedLoc?.Location_Id,branchId:this.selectedLoc?.Branch_Id},skipLocationChange:true}
     )
   }
-
-  getLocationsofRoute(route:any){
-    console.log(route?.Route_Id);
-    // this.loader = true;
-    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.Route_Id}`).subscribe((res)=>{
-      // console.log(res);
-      route.Locations = res;
-      route.isrouteDropped = true;
-      route?.Locations.forEach((item:any)=>{
-        item.selected = false;
-      })
-      console.log(this.branchData);
-      // this.loader = false;
-    })
-  }
-
-  
-
-  currentbranchSelect(branch:any){
-    this.branchView = true;
-    this.locationsView = false;
-    this.routesView = false;
-    this.selectedBranch = branch;
-    branch.showRoutesList = false;
-  }
-
-  
-  expandBranch(branch:any){
-    // this.shrinkAllBranches();
-    this.branchData?.forEach((element:any)=>{
-      if(element?.Branch_Id == branch?.Branch_Id) element.dropped = true;
-      // else element.dropped = false;
-    })
-  }
-
-  shrinkBranch(branch:any){
-    this.branchData?.forEach((element:any)=>{
-      if(element?.Branch_Id == branch?.Branch_Id) element.dropped = false;
-    })
-  }
-
-  shrinkAllBranches(){
-    this.branchData?.forEach((branch:any)=>{
-      branch.dropped = false;
-    });
-    console.log(this.branchData)
-  }
-
-  onTabChanged(event:any): void {
-    this.selectedTabIndex = event?.index;
-  }
-
-  selectBranchLocation(branch:any){
-    // this.getAllRoutesofBranch({branch:branch,view:'locationsView'})
-    this.branchView = false;
-    this.routesView = false;
-    this.selectedRoute = '';
-    branch?.Routes?.forEach((route:any)=>{
-      route.selected = false;
-    })
-    this.locationsView = true;
-    branch.showRoutesList = true;
-    this.loader = true;
-  }
-
-  selectRoute(route:any){
-    this.dataloader = true;
-    this.routesView = true;
-    this.branchView = false;
-    this.locationsView = false;
-    this.getDetailsofSelectedRoute(route);
-    this.selectedRoute = route;
-    this.draggeditem = [];
-    
-  }
-
-  getDetailsofSelectedRoute(route:any){
-    this.apiService.get(`http://bassnewapi.testzs.com/api/Branch/LocationList/${route?.Route_Id}`).subscribe((res)=>{
-      if(res){
-        route.Locations = res;
-        route?.Locations.forEach((item:any)=>{
-          item.selected = false;
-        })
-        if(this.selectedRoute?.Locations) this.selectedRoute.Locations = res;
-        let timeOutId = setTimeout(()=>{
-          if(this.selectedRoute?.Locations?.length > 0)  this.dataloader = false;
-        },400)
-      }
-      else this.dataloader = false;
-      
-    });
-   
-  }
-
-
-  onRightClick(item:any){
-    if(item?.RouteName){
-      // this.dropArea = item;
-      // this.contextmenuX = ev?.clientX
-      // this.contextmenuY = ev?.clientY
-      // this.contextmenu=true;
-    } 
-    else this.dropArea = null;
-    return false;
-  }
-
-  selectLocationCard(item:any){
-    if(item?.selected){
-      item.selected = false;
-      this.draggeditem = this.draggeditem.filter((loc:any)=>{
-        if(item?.LocationId != loc?.LocationId) return item 
-      })
-    }
-    else{
-      item.selected = true;
-      if(item?.LocationId) this.draggeditem?.push(item);
-      else{ this.draggeditem = null;}
-      console.log(this.draggeditem)
-    }
-    
-  }
-
-  disableContextMenu(){
-    this.contextmenu= false;
-  }
-
-  moveLocation(){
-    const dialogRef = this.dialog.open(ConfirmBoxComponent, {
-      data: {
-        message: 'Are you sure want to Move?',
-      },
-    });
-    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-      if (confirmed == true) {
-        // remove location from current route
-        console.log(this.draggeditem)
-        this.branchData?.forEach((element:any) => {
-          element?.Routes?.forEach((route:any)=>{
-              this.draggeditem?.forEach((item:any)=>{
-               route.Locations =  route?.Locations?.filter((loc:any,index:any)=>{return (loc?.LocationId != item?.LocationId)})
-              })              
-            // })
-          })
-        });
-         // also remove it from selectedRoute
-         this.draggeditem?.forEach((item:any)=>{
-           this.selectedRoute.Locations =  this.selectedRoute?.Locations?.filter((loc:any,index:any)=>{return (loc?.LocationId != item?.LocationId)})
-        })  
-        // add location from new route
-        this.branchData?.forEach((element:any) => {
-          element?.Routes?.forEach((route:any)=>{
-            if(this.dropArea?.Route_Id == route?.Route_Id) route?.Locations?.push(...this.draggeditem)
-          })
-        });
-        this.toastr.success(`Moved  ${this.draggeditem.length} Locations to Route ${this.dropArea?.RouteName}  successfully`);
-        this.draggeditem = [];
-        this.dropArea = null;
-        this.dropPoint = null;
-      }
-      
-    });
-       
-  }
-
-  moveApiLocation(){
-
-  }
-
-  moveLocationOnClick(ev:any){
-    if(this.draggeditem && this.dropArea) this.moveLocation();
-  }
-
-  onBodyClick(event:any): void {
-    if (event.target.classList[0] !== 'no-close') {
-      this.contextmenu = false;
-    }
-  }
-
-  allowDrop(ev:any,route:any) {
-    ev.preventDefault();
-    this.dropPoint = route;
-  }
-
-  itemDrop(ev:any,route:any){
-    this.dropArea = route;
-    console.log(this.dropArea?.Route_Id,  this.draggeditem[0]?.Route_Id)
-    if(this.draggeditem && this.dropArea && (this.dropArea?.Route_Id != this.draggeditem[0]?.Route_Id)) this.moveLocation();
-  }
-
-  drgEnter(ev:any){
-    this.moveService.setDropPoint(null);
-  }
-  
-  drgEv(ev:any){
-    this.moveService.setDropPoint(this.dropPoint);
-  }
-
+ 
 }

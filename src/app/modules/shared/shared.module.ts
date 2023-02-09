@@ -12,6 +12,8 @@ import { RemoveUnderscorePipe } from 'src/app/pipes/removeunderscore.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { FilterRouteNamePipe } from 'src/app/pipes/filter-route-name.pipe';
 
 
 @NgModule({
@@ -24,10 +26,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DetailsComponent,
     LeftMenuComponent,
     DetailsComponent,
-    RemoveUnderscorePipe,    
+    RemoveUnderscorePipe,
+    FilterRouteNamePipe    
   ],
   imports: [
     CommonModule,
+    
     NgxSkeletonLoaderModule.forRoot()
     
   ],
@@ -41,6 +45,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LeftMenuComponent,
     NgxSkeletonLoaderModule,
     RemoveUnderscorePipe,
+    FilterRouteNamePipe
+    
   ]
 })
 export class SharedModule { }

@@ -9,36 +9,72 @@
 
     <div class=" m-b-10 p-t-10 p-b-20  d-flex ">
         <div class="w-75 flex-column">
-            <div class=" item-box5 m-b-10 p-r-15 p-t-10 m-r-10 m-l-5 p-b-10 flex-column">
+            <div *ngIf="loader" class=" item-box5 m-b-10 p-r-15 p-l-10 p-t-20 m-r-10 m-l-5 p-b-20 d-flex">
+                <div class="m-r-10">
+                    <ngx-skeleton-loader count="1" [theme]="{
+                    width: '60px',
+                    height:'60px',
+                    'padding':'10px'
+                    }" appearance="circle">
+                    </ngx-skeleton-loader>
+                </div>
+                <div class="flex-3 flex-column p-t-10">
+                    <ngx-skeleton-loader [theme]="{
+                        width: '40%',
+                        'border-radius': '0',
+                        height: '13px',
+                        'margin-bottom': '5px'
+                        }"></ngx-skeleton-loader>
+                    <ngx-skeleton-loader [theme]="{
+                        width: '60%',
+                        'border-radius': '0',
+                        height: '12px',
+                        'margin-bottom': '5px'
+                        }"></ngx-skeleton-loader>
+                    <ngx-skeleton-loader [theme]="{
+                        width: '80%',
+                        'border-radius': '0',
+                        height: '12px',
+                        'margin-bottom': '5px'
+                        }"></ngx-skeleton-loader>
+
+                </div>
+
+            </div>
+            <div *ngIf="!loader" class=" item-box5 m-b-10 p-r-15 p-t-10 m-r-10 m-l-5 p-b-10 flex-column">
                 <div class="d-flex w-100 j-end m-r-10 p-r-10 p-r-10 gap-2">
-                    <div class="c-gr f-s-11 d-flex align-center f-w400"><i class="fa f-s-12 p-3 m-r-2 p-t-3 fa-save highlighted-text"></i> Save</div>
-                    <div class="c-gr f-s-11 d-flex align-center f-w400 p-t-1"><span class="f-w500 f-s-11 c-black">X</span><span class="f-s-11 m-l-4 ">Cancel</span> </div>
+                    <div class="c-gr f-s-11 d-flex align-center f-w400"><i
+                            class="fa f-s-12 p-3 m-r-2 p-t-3 fa-save highlighted-text"></i> Save</div>
+                    <div class="c-gr f-s-11 d-flex align-center f-w400 p-t-1"><span
+                            class="f-w500 f-s-11 c-black">X</span><span class="f-s-11 m-l-4 ">Cancel</span> </div>
                 </div>
                 <div class="d-flex j-space">
                     <div class="d-flex align-center  p-l-10 p-r-10 ">
                         <div class="d-flex align-center j-center"><img src="assets/icons/location-circle.svg"
                                 width="60px" height="60px" alt=""></div>
                         <div class="flex-column m-l-5 j-end p-b-5 ">
-                            <div class="f-w500">4D'S GROCERY & GAS BAR</div>
+                            <div class="f-w500">{{data?.StoreName}}</div>
                             <div class="f-w400 f-s-11">Branch : CE </div>
-                            <div class="f-w400 f-s-11 highlighted-text">109124</div>
-                            <div class="f-w400 f-s-11">5609124</div>
+                            <div class="f-w400 f-s-11 highlighted-text">{{data?.Store_Id}}</div>
+                            <div class="f-w400 f-s-11">{{data?.Location_Id}}</div>
                             <div class="f-w400 f-s-11 d-flex j-space grid-details-2">
-                                <div class="highlighted-text f-s-11  d-flex align-center" >
-                                    <div class="c-pointer d-flex align-center" matTooltip="Change Route" matTooltipPosition="right">
+                                <div class="highlighted-text f-s-11  d-flex align-center">
+                                    <div class="c-pointer d-flex align-center" matTooltip="Change Route"
+                                        matTooltipPosition="right">
                                         <img src="assets/icons/route.svg" width="15px" height="13px" alt="" srcset="">
-                                       <div class="rte-text">[200] NS-LNBRG/BRIDGWTR/SHELBT - 60 DAYS -JIM G</div>
+                                        <div class="rte-text">{{currentRouteName}}</div>
                                     </div>
-                                    <i (click)="editRoute()" matTooltip="Change Route" matTooltipPosition="right" class="fa c-pointer c-black f-s-15 p-2 m-l-5 p-t-4 fa-edit"></i>
+                                    <i (click)="editRoute()" matTooltip="Change Route" matTooltipPosition="right"
+                                        class="fa c-pointer c-black f-s-15 p-2 m-l-5 p-t-4 fa-edit"></i>
                                 </div>
                                 <div class="f-s-11 d-flex align-center j-center highlighted-text"><img class="m-r-5"
                                         src="assets/icons/technician.svg" width="13px" height="13px" alt="" srcset="">
-                                    Jackson, Owen</div>
+                                    {{currentTechnicianName}}</div>
                             </div>
                         </div>
                     </div>
                     <div class="flex-column  p-l-10 p-r-10  m-t-10">
-                        <div class=" grid-details">
+                        <!-- <div class=" grid-details">
                             <div class="f-w400 f-s-11">Machine ID :</div>
                             <div class=" f-w400 highlighted-text f-s-11">525267436</div>
                             <div class="f-w400 f-s-11">Serial Number :</div>
@@ -47,7 +83,7 @@
                             <div class="f-w400 f-s-11">AIR VAC MACHINE</div>
                             <div class="f-w400 f-s-11">Contact Phone :</div>
                             <div class="f-w400 f-s-11 light-green">5025266377</div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>
@@ -55,18 +91,44 @@
 
             </div>
             <div class="d-flex m-r-10 m-l-5">
-                <div class="item-box10 left-loc-detail p-15">
-                    <div class="d-flex j-space align-center">
-                        <div class="f-w400 c-drk-gr f-s-16">Location Visits</div>
-                        <div class="f-s-12 dropdown-menu-h d-flex align-center j-space p-l-10 p-r-10">
-                            <div class="f-s-12 f-w400">2022</div>
-                            <i class="fa f-s-15 fa-angle-down"></i>
-                        </div>
+                <div class="item-box1 w-50 rte-tble-ctn m-r-10  p-15">
+               
+                        <div class="d-flex j-space align-center">
+                            <div class="f-w400 c-drk-gr f-s-16">Location Visits</div>
+                            <div class="f-s-12 dropdown-menu-h d-flex align-center j-space p-l-10 p-r-10">
+                                <div class="f-s-12 f-w400">2022</div>
+                                <i class="fa f-s-15 fa-angle-down"></i>
+                            </div>
 
-                    </div>
+                        </div>
+                        <div class="item w-100 p-10 m-t-10" *ngIf="loader">
+                            <ngx-skeleton-loader count="5" animation="progress"
+                                [theme]="{ 'border-radius': '0', height: '25px' }"></ngx-skeleton-loader>
+                        </div>
+                        <ng-container *ngIf="!loader ">
+                            <div class="grid-ctn1 m-b-10 m-t-10">
+
+                            <div class="grid-table m-t-5 m-b-5">
+
+                                <div class="f-s-12 f-w500 th-grid p-8 p-t-8 p-b-8  text-overfl"><i class="fa fa-calendar m-r-2"></i> Date & Time</div>
+                                <div class="f-s-12 f-w500 th-grid p-8 p-t-8 p-b-8 text-overfl" ><span><img src="assets/icons/technician.svg"  class="p-b-2" width="14px" height="14px" alt="" srcset=""></span> Servicer</div>
+                                <div class="f-s-12 f-w500 th-grid p-8 p-t-8 p-b-8  "><div class="f-s-12 dropdown-menu-h drop-ctn d-flex align-center j-space p-l-10 p-r-10 ">
+                                    <div class="f-s-12 f-w500 text-overfl drop-display">Purpose</div>
+                                    <i class="fa f-s-13 fa-angle-down"></i>
+                                </div></div>
+                                <ng-container *ngFor="let item of data?.workorderinfo">
+                                    <div class="f-s-12 f-w400 td-grid p-8 p-t-5 p-b-5  text-overfl">12-02-2022 12:00 PM</div>
+                                    <div class="f-s-12  f-w400 td-grid p-8 p-t-5 p-b-5 text-overfl c-drk-blue">{{item?.Servicer_Name}}</div>
+                                    <div class="f-s-12  f-w400 td-grid p-12 p-t-5 p-b-5 text-overfl">{{item?.Issue_Reported}}</div>
+
+                                </ng-container>
+                            </div>
+                            </div>
+                        </ng-container>
 
                 </div>
-                <div class="item-box10 right-loc-detail p-15">
+
+                <div class="item-box1 w-50  p-15 flex-column">
                     <div class="d-flex j-space align-center">
                         <div class="f-w400 c-drk-gr f-s-16">Collections</div>
                         <div class="f-s-12 dropdown-menu-h d-flex align-center j-space p-l-10 p-r-10">
@@ -111,32 +173,50 @@
                 <div class="flex-column align-center j-center t-a-center">
                     <img src="assets/icons/location-circle.svg" style="opacity:0.95" width="80px" height="80px" alt=""
                         srcset="">
-                    <div class="f-w500 f-s-12 t-a-center">{{selectedLoc?.StoreName | uppercase}}</div>
+                    <div class="f-w500 f-s-12 t-a-center">{{data?.StoreName | uppercase}}</div>
                 </div>
                 <p class="t-a-center f-s-12">Branch : Canada-east</p>
                 <p><img src="assets/icons/navigation.png" height="12px" width="13px" alt="" srcset=""> <span
-                        class="m-l-4 f-s-11 f-w400 c-blue">{{selectedLoc?.Route_Name | uppercase}}</span></p>
+                        class="m-l-4 f-s-11 f-w400 c-blue">{{currentRouteName | uppercase}}</span></p>
                 <p><img src="assets/icons/employee.png" height="12px" width="13px" alt="" srcset=""> <span
-                        class="m-l-4 f-s-11 f-w400 c-blue">{{selectedLoc?.First_Name }}</span></p>
+                        class="m-l-4 f-s-11 f-w400 c-blue">{{currentTechnicianName }}</span></p>
                 <div>
                     <div class="f-w500 f-s-13">Address</div>
                     <div class="f-w400 f-s-11 flex-column">
-                        <div class="f-s-11">{{selectedLoc?.Address1}}</div>
-                        <div class="f-s-11"> {{selectedLoc?.City_Name}}</div>
-                        <div class="f-s-11"> {{selectedLoc?.State_Code}}</div>
+                        <div class="f-s-11">{{data?.Address1}}</div>
+                        <div class="f-s-11"> {{data?.City_Name}}</div>
+                        <div class="f-s-11"> {{data?.State_Code}}</div>
                     </div>
                     <div class="f-w400 f-s-11 d-flex align-center j-space">
-                        <div class="f-s-11">{{selectedLoc?.Zip_Code}}</div>
-                        <div class="f-s-11">{{selectedLoc?.PhoneNumber}}</div>
+                        <div class="f-s-11">{{data?.Zip_Code}}</div>
+                        <div class="f-s-11">{{data?.PhoneNumber}}</div>
                     </div>
                 </div>
-
-                <div class="flex-column  j-end m-t-30">
-                    <div class="d-flex align-end t-a-center j-center m-t-20">
-                        <button class="read-more f-s-11 p-l-20 p-r-20 p-5">Read More</button>
+                <div>
+                    <div class="f-w500 f-s-13 m-t-10">Machine Details ({{data?.machieinfo?.length}})</div>
+                    <div class="item w-100 p-10 m-t-10" *ngIf="loader">
+                        <ngx-skeleton-loader count="5" animation="progress"
+                            [theme]="{ 'border-radius': '0', height: '25px' }"></ngx-skeleton-loader>
                     </div>
-                </div>
+                    <ng-container *ngIf="!loader ">
+                        <div class="grid-ctn2 m-b-10 m-t-10">
+                            <div class="grid-table m-t-5 m-b-5">
 
+                                <div class="f-s-12 f-w500 th-grid p-8 p-t-5 p-b-5  text-overfl">Serial Number</div>
+                                <div class="f-s-12 f-w500 th-grid p-8 p-t-5 p-b-5 text-overfl" >Machine</div>
+                                <div class="f-s-12 f-w500 th-grid p-8 p-t-5 p-b-5  ">Type</div>
+                                <ng-container *ngFor="let item of data?.machieinfo">
+                                    <div class="f-s-12 f-w400 td-grid p-8 p-t-5 p-b-5  text-overfl">{{item?.Serial_Number}}</div>
+                                    <div class="f-s-12  f-w400 td-grid p-8 p-t-5 p-b-5 text-overfl c-drk-blue">{{item?.Machine_id}}</div>
+                                    <div class="f-s-12  f-w400 td-grid p-8 p-t-5 p-b-5 text-overfl">{{item?.Machine_Type}}</div>
+    
+                                </ng-container>
+                            </div>
+
+                        </div>
+                        
+                    </ng-container>
+                </div>
             </ng-container>
 
 

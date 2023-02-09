@@ -30,6 +30,7 @@ export class LeftMenuComponent implements OnInit {
   @Output() selectRouteEvent = new EventEmitter<any>();
   @Output() selectLocationEvent = new EventEmitter<any>();
   @Output() selectMachineEvent = new EventEmitter<any>();
+  @Output() selectTechnicianEvent = new EventEmitter<any>();
   dropArea:any;
   dropPoint:any = null;
   dragActive:boolean = false;
@@ -67,6 +68,13 @@ export class LeftMenuComponent implements OnInit {
     this.router.navigate(['home/machine-list'],
     // {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count}}
     {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count,machinesCount:branch?.Machine_count},skipLocationChange:true}
+    )
+  }
+  showTechniciansList(branch:any){
+    this.selectTechnicianEvent.emit(branch?.Branch_Id);
+    this.router.navigate(['home/technicians-list'],
+    // {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count}}
+    {queryParams:{branchId:branch?.Branch_Id,routesCount:branch?.Route_Count,locationsCount:branch?.Location_Count,techniciansCount:branch?.Technician_Count},skipLocationChange:true}
     )
   }
 

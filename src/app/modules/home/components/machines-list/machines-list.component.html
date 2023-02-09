@@ -65,7 +65,7 @@
                     <mat-header-row *matHeaderRowDef="shownColumns;sticky: true"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: shownColumns;"
                         [ngClass]="(selectedMachine?.Machine_Id==row?.Machine_Id) ? 'highlighted-row' : ''"
-                        (click)="viewRouteDetails(row)"></mat-row>
+                        (click)="viewMachineDetails(row)"></mat-row>
                 </mat-table>
             </ng-container>
             <!-- <div  class="">

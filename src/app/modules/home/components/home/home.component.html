@@ -4,18 +4,15 @@
 <!-- <div *ngIf="!branchData" class="d-flex w-100  align-center j-center loader">
     <mat-spinner></mat-spinner>
 </div> -->
-<div class="details-body bg-ws p-t-0 m-t-10"  >
+<div class="details-body bg-ws p-t-0 m-t-10">
     <div class=" m-r-20 h-100  container-fluid d-flex ">
-        <div class="w-20 m-b-20 l-bar  left-menu m-t-30 " >
-            <!-- <app-left-menu [branchData]="branchData"   [selectedBranch]="selectedBranch" [selectedRoute]="selectedRoute"
-            [branchView]="branchView" [locationsView]="locationsView" [routesView]="routesView" 
-            (fetchAllRoutesEvent)="getAllRoutesofBranch($event)" 
-            (selectRouteEvent)="selectRoute($event)"  (branchSelectEvent)="currentbranchSelect($event)" (selectBranchLocationEvent)="selectBranchLocation($event)"></app-left-menu> -->
-            <!-- <app-left-menu></app-left-menu> -->
-            <app-left-menu [branchData]="branchData" (selectMachineEvent)="selectMachineView($event)" (selectRouteEvent)="selectRouteView($event)" (selectLocationEvent)="selectLocationView($event)"  [selectedBranch]="selectedBranch"  (branchSelectEvent)="currentbranchSelect($event)"></app-left-menu>
+        <div class="w-20 m-b-20 l-bar  left-menu m-t-30 ">
+            <app-left-menu [branchData]="branchData" (selectMachineEvent)="selectMachineView($event)"
+                (selectRouteEvent)="selectRouteView($event)" (selectTechnicianEvent)="selectTechnicianView($event)"
+                (selectLocationEvent)="selectLocationView($event)" [selectedBranch]="selectedBranch"
+                (branchSelectEvent)="currentbranchSelect($event)"></app-left-menu>
         </div>
-        <!--  -->
-        <div class=" w-80 p-t-5 min-ht-container m-l-5 m-b-0 p-relative" >
+        <div class=" w-80 p-t-5 min-ht-container m-l-5 m-b-0 p-relative">
             <router-outlet></router-outlet>
         </div>
     </div>

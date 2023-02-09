@@ -18,9 +18,9 @@
             </div>
         </div>
 
-        <div  class="d-flex align-center main-search-bar p-l-10 p-r-10 m-r-15  j-end">
+        <div class="d-flex align-center main-search-bar p-l-10 p-r-10 m-r-15  j-end">
             <input class="f-s-13 p-5" type="text" placeholder="Search">
-            <i class="fa fa-search fa-flip-horizontal sb " ></i>
+            <i class="fa fa-search fa-flip-horizontal sb "></i>
             <!-- <div class="main-s-button d-flex align-center j-center f-s-12 p-l-10 p-r-10 gap-2">
                 <div>Location</div> <i class="fa fa-angle-down angle fa-fw m-t-2" ></i></div> -->
         </div>
@@ -32,20 +32,22 @@
                 <ngx-skeleton-loader count="8" animation="progress"
                     [theme]="{ 'border-radius': '0', height: '30px' }"></ngx-skeleton-loader>
             </div>
-            <ng-container *ngIf="!loader " >
-                <mat-table  matSort [dataSource]="dataSource" class="mat-table m-b-5"
+            <ng-container *ngIf="!loader ">
+                <mat-table matSort [dataSource]="dataSource" class="mat-table m-b-5"
                     style="overflow:auto!important;position:relative!important">
                     <ng-container *ngFor="let col of shownColumns" [matColumnDef]="col">
                         <ng-container *ngIf="col=='Total_Machine'">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header class="f-s-12  d-flex align-center c-dark">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header
+                                class="f-s-12  d-flex align-center c-dark">
                                 <div class="d-flex align-center filter-bar  p-t-5">
                                     <input class="f-s-13 p-5" type="text" placeholder="{{col | removeUnderscore}}">
-                                    <div class="f-button d-flex align-center j-center"><img src="assets/icons/search.png"
-                                            width="12px" height="12px" alt="" srcset=""></div>
+                                    <div class="f-button d-flex align-center j-center"><img
+                                            src="assets/icons/search.png" width="12px" height="12px" alt="" srcset="">
+                                    </div>
                                 </div>
                             </mat-header-cell>
                             <mat-cell *matCellDef="let row" class="d-flex j-end">
-                                <div class="d-flex j-end " >
+                                <div class="d-flex j-end ">
                                     1
                                 </div>
                             </mat-cell>
@@ -65,7 +67,7 @@
                     <mat-header-row *matHeaderRowDef="shownColumns;sticky: true"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: shownColumns;"
                         [ngClass]="(selectedLoc?.Location_Id==row?.Location_Id) ? 'highlighted-row' : ''"
-                        (click)="viewRouteDetails(row)"></mat-row>
+                        (click)="viewLocationDetails(row)"></mat-row>
                 </mat-table>
             </ng-container>
             <!-- <div  class="">
@@ -78,73 +80,71 @@
             </div>
 
         </div>
-        <div class="item-box1 w-25 m-r-5 p-15 flex-column">
+        <div class="item-box1 w-25 m-r-5 p-15 flex-column  ">
             <div class="fb-item p-10" *ngIf="loader">
                 <div class="first-section-wrapper">
-                  <div class="gravatar flex-column align-center j-center t-a-center">
-                    <ngx-skeleton-loader
-                      appearance="circle"
-                      [theme]="{ width: '80px', height: '80px' }"
-                    >
-                    </ngx-skeleton-loader>
-                  </div>
-                  <div class="gravatar-title">
-                    <div>
-                      <ngx-skeleton-loader
-                        [theme]="{
+                    <div class="gravatar flex-column align-center j-center t-a-center">
+                        <ngx-skeleton-loader appearance="circle" [theme]="{ width: '80px', height: '80px' }">
+                        </ngx-skeleton-loader>
+                    </div>
+                    <div class="gravatar-title">
+                        <div>
+                            <ngx-skeleton-loader [theme]="{
                           width: '200px',
                           'border-radius': '0',
                           height: '15px',
                           'margin-bottom': '10px'
-                        }"
-                      ></ngx-skeleton-loader>
+                        }"></ngx-skeleton-loader>
+                        </div>
+                        <div>
+                            <ngx-skeleton-loader [theme]="{ width: '170px', 'border-radius': '0', height: '15px' }">
+                            </ngx-skeleton-loader>
+                        </div>
                     </div>
-                    <div>
-                      <ngx-skeleton-loader
-                        [theme]="{ width: '170px', 'border-radius': '0', height: '15px' }"
-                      >
-                      </ngx-skeleton-loader>
-                    </div>
-                  </div>
                 </div>
                 <ngx-skeleton-loader count="4" animation="progress"></ngx-skeleton-loader>
             </div>
             <ng-container *ngIf="!loader && dataSource">
-                <p class="d-flex j-end c-gr f-s-11 m-b-0 f-w400 p-5 p-b-2 p-t-2"><span class="m-r-4"><img
-                            src="assets/icons/double-check.png" width="13px" height="12px" alt="" srcset=""></span>
-                    <span>Active</span> </p>
-                <div class="flex-column align-center j-center t-a-center m-t-0">
-                    <img src="assets/icons/location-circle.svg" style="opacity:0.95" width="80px" height="80px" alt="" srcset="">
-                    <div class="f-w500 f-s-12 t-a-center">{{selectedLoc?.StoreName | uppercase}}</div>
-                </div>
-                <p class="t-a-center f-s-11">Branch : Canada-east</p>
-                <p class="m-b-0"><img src="assets/icons/navigation.png" height="12px" width="13px" alt="" srcset=""> <span class="m-l-4 f-s-10 f-w400 c-blue">{{selectedLoc?.Route_Name | uppercase}}</span></p>
-                <p class="m-t-2 m-b-0"><img src="assets/icons/employee.png" height="12px" width="13px" alt="" srcset=""> <span class="m-l-4 f-s-10 f-w400 c-blue">{{selectedLoc?.First_Name }}</span></p>
-                <div>
-                    <div class="f-w500 f-s-12">Address</div>
-                    <div class="f-w400 f-s-11 flex-column">
-                        <div class="f-s-10">{{selectedLoc?.Address1}}</div>
-                        <div class="f-s-10"> {{selectedLoc?.City_Name}}</div>
-                        <div class="f-s-10"> {{selectedLoc?.State_Code}}</div>
+                <div class="flex-column j-space">
+                    <div>
+                        <p class="d-flex j-end c-gr f-s-11 m-b-0 f-w400 p-5 p-b-2 p-t-2"><span class="m-r-4"><img
+                                    src="assets/icons/double-check.png" width="13px" height="12px" alt=""
+                                    srcset=""></span>
+                            <span>Active</span>
+                        </p>
+                        <div class="flex-column align-center j-center t-a-center m-t-0">
+                            <img src="assets/icons/location-circle.svg" style="opacity:0.95" width="80px" height="80px"
+                                alt="" srcset="">
+                            <div class="f-w500 f-s-12 t-a-center">{{selectedLoc?.StoreName | uppercase}}</div>
+                        </div>
+                        <p class="t-a-center f-s-11">Branch : Canada-east</p>
+                        <p class="m-b-0"><img src="assets/icons/navigation.png" height="12px" width="13px" alt=""
+                                srcset=""> <span class="m-l-4 f-s-10 f-w400 c-blue">{{selectedLoc?.Route_Name |
+                                uppercase}}</span></p>
+                        <p class="m-t-2 m-b-0"><img src="assets/icons/employee.png" height="12px" width="13px" alt=""
+                                srcset=""> <span class="m-l-4 f-s-10 f-w400 c-blue">{{selectedLoc?.First_Name }}</span>
+                        </p>
+                        <div>
+                            <div class="f-w500 f-s-12">Address</div>
+                            <div class="f-w400 f-s-11 flex-column">
+                                <div class="f-s-11">{{selectedLoc?.Address1}}</div>
+                                <div class="f-s-11"> {{selectedLoc?.City_Name}}</div>
+                                <div class="f-s-11"> {{selectedLoc?.State_Code}}</div>
+                            </div>
+                            <div class="f-w400 f-s-11 d-flex align-center j-space">
+                                <div class="f-s-11">{{selectedLoc?.Zip_Code}}</div>
+                                <div class="f-s-11">{{selectedLoc?.PhoneNumber}}</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="f-w400 f-s-11 d-flex align-center j-space">
-                        <div class="f-s-10">{{selectedLoc?.Zip_Code}}</div>
-                        <div class="f-s-10">{{selectedLoc?.PhoneNumber}}</div>
+                    <div class="flex-column  j-end m-t-30">
+                        <div class="d-flex align-end t-a-center j-center m-t-20">
+                            <button class="read-more f-s-11 p-l-20 p-r-20 p-5" (click)="goToLocationDetails()">Read
+                                More</button>
+                        </div>
                     </div>
                 </div>
-               
-                <div class="flex-column  j-end m-t-30">
-                    <div class="d-flex align-end t-a-center j-center m-t-20">
-                        <button class="read-more f-s-11 p-l-20 p-r-20 p-5" (click)="goToLocationDetails()">Read More</button>
-                    </div>
-                </div>
-
             </ng-container>
-
-
         </div>
-
     </div>
-
-
 </ng-container>

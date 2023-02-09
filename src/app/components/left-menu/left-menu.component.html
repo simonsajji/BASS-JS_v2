@@ -66,7 +66,7 @@
                                 <img class="c-pointer" (click)="expandBranch(branch)" *ngIf="!branch?.dropped"
                                     src="assets/icons/right2.png" alt="" height="65%" width="65%">
                             </div>
-                            <div (click)="currentbranchSelect(branch)" [ngClass]="(branch?.showLocationsList || branch?.showRoutesList || branch?.showMachinesList) ? 'selected-item f-w500' : ''"
+                            <div (click)="currentbranchSelect(branch)" [ngClass]="(branch?.showLocationsList || branch?.showRoutesList || branch?.showMachinesList || branch?.showTechniciansList) ? 'selected-item f-w500' : ''"
                                 class="route d-flex align-center c-pointer">
                                 <img src="assets/icons/ios-git-branch-3.svg" alt="" height="19px" width="18px">
                                 <div class=" f-s-13 f-w-400" >{{branch?.Branch_Name}}</div>
@@ -86,13 +86,10 @@
                                             width="15px" class="m-l-4"> <span class="m-l-4 hover-highlight f-s-12 disable c-pointer">Collections <span class="count">(${{branch?.Total_Collection}})</span></span> </div>
                                 </div>
                             </div>
-                            <div class="p-l-30 m-t-5 f-s-13 p-t-2 p-b-2" title="This feature is coming soon">
-                                <div class="d-flex w-100 align-center ">
-                                    <!-- <div class="fa fa-angle-right angle fa-fw"></div> -->
-                                    <div class="d-flex align-center  w-100"><img src="assets/icons/technician.svg"
-                                            alt="" height="14px" width="15px" class="m-l-4"> <span class="m-l-3 p-t-4 hover-highlight f-s-12 disable c-pointer">Technicians
-                                                <span class="count">({{branch?.Technician_Count}})</span></span> </div>
-                                </div>
+                           
+                            <div [ngClass]="(branch?.showTechniciansList) ? 'selected f-w500' : ''" class="p-l-30 m-t-5 f-s-13 p-t-2 p-b-2 d-flex align-center  w-100 m-r-2 ">
+                                <img src="assets/icons/technician.svg" alt="" height="14px" width="15px" class="m-l-4">
+                                <span (click)="showTechniciansList(branch)"  class="m-l-4 max-h hover-highlight f-s-12 disable c-pointer" >Technicians <span class="count">({{branch?.Technician_Count}})</span></span> 
                             </div>
                           
                             <div [ngClass]="(branch?.showRoutesList) ? 'selected f-w500' : ''" class="p-l-30 m-t-5 f-s-13 p-t-2 p-b-2 d-flex align-center  w-100 m-r-2 ">

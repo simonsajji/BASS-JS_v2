@@ -31,13 +31,14 @@ import { environment } from 'src/environments/environment';
 import { SharedModule } from './modules/shared/shared.module';
 import { NgxSkeletonLoaderComponent, NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { EditRouteBoxComponent } from './components/edit-route-box/edit-route-box.component';
+import { FilterRouteNamePipe } from './pipes/filter-route-name.pipe';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
 @NgModule({
   declarations: [
     AppComponent,
-    EditRouteBoxComponent,  
+    EditRouteBoxComponent,
     // AuthenticationComponent
   ],
   imports: [
@@ -54,8 +55,6 @@ const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.u
     MatProgressSpinnerModule,
     NgxSkeletonLoaderModule,
     SharedModule,
-
-
     ToastrModule.forRoot({
       positionClass :'toast-top-right',
       preventDuplicates: true
@@ -97,7 +96,7 @@ const isIE = window.navigator.userAgent.indexOf('MSIE')>-1 || window.navigator.u
     useClass:MsalInterceptor,
     multi:true
   },
-  MsalGuard,LoginService,ApiService,ToastrServices],
+  MsalGuard,LoginService,ApiService],
   bootstrap: [AppComponent,MsalRedirectComponent],
   exports:[NgxSkeletonLoaderModule]
 })
